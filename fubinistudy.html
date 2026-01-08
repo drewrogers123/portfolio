@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fubini-Study</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      macros: {
+        bra: ["\\langle{#1}|", 1],
+        ket: ["|{#1}\\rangle", 1],
+        braket: ["\\langle{#1}|{#2}\\rangle", 2],
+        dd: "\\mathrm{d}",
+        ep: "\\epsilon"
+      }
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Fubini-Study Metric</h2>
+                <p><strong>Description:</strong> The following are my notes from a small graduate talk I gave deriving the Fubini-Study Metric using quantum states.</p>
+                
+                <p>Before we calculate the Fubini Study metric, we'll first examine the Fubini Study distance, defined as follows</p>
+                \[
+                \begin{align*}
+                    \text{dist} _{FS} &= \arccos\sqrt{\frac{\braket{\psi}{\varphi}\braket{\varphi}{\psi}}{\braket{\psi}{\psi}\braket{\varphi}{\varphi}}}.
+                \end{align*}
+                \]
+                
+                <p>Two quick test examples are the case where $\ket{\psi}$ and $\ket \varphi$ exist on the same ray, and the case where $\ket \psi$ and $\ket \varphi$ are orthogonal. First, if the two states exist on the same ray, then $\ket \varphi = re^{i\theta}\ket{\psi}$ and thus $\bra{\varphi} = re^{-i\theta}\bra{\psi}$. Therefore</p>
+                \[
+                \begin{align*}
+                    \text{dist} _{FS} &= \arccos\sqrt{\frac{re^{i\theta}\braket{\psi}{\psi}re^{-i\theta}\braket{\psi}{\psi}}{\braket{\psi}{\psi}re^{i\theta}re^{-i\theta}\braket{\psi}{\psi}}} \\
+                    &= \arccos \sqrt{\frac{r^2}{r^2}} \\
+                    &= \arccos 1 \\
+                    &= 0
+                \end{align*}
+                \]
+                
+                <p>Thus meaning that the distance (in the form of an angle) is 0 when measured between two states that differed by a scalar multiple. Which is exactly what we might expect.</p>
+                
+                <p>If the two states are orthogonal, then $\braket{\psi}{\varphi} = 0$ and thus $\braket{\varphi}{\psi}=0$. Therefore,</p>
+                \[
+                \begin{align*}
+                     \text{dist} _{FS} &= \arccos\sqrt{\frac{0}{\braket{\psi}{\psi}\braket{\varphi}{\varphi}}} \\
+                     &= \arccos 0 \\
+                     &= \frac{\pi}{2}
+                \end{align*}
+                \]
+                
+                <p>Which is again, exactly what we might expect, since this says that the angle between orthogonal states is $\frac{\pi}{2} = 90^\circ$</p>
+                
+                <p>To calculate the metric, we take the infinitesimal distance, squared. In this first calculation, we'll use a normalized state $\ket\psi$. That is, $\braket{\psi}=1$.</p>
+                \[
+                \begin{align*}
+                    \dd s^2 &= \text{dist}_{FS}^2 (\psi,\psi + \dd \psi) \\
+                    &=\arccos^2\sqrt{\frac{\braket{\psi}{\psi + \dd \psi}\braket{\psi + \dd \psi}{\psi}}{\braket{\psi}{\psi}\braket{\psi + \dd \psi}{\psi + \dd \psi}}} \\
+                    &= \arccos^2{\sqrt{\frac{\big(\braket{\psi}{\psi} +\braket{\psi}{\dd \psi}\big)\big(\braket{\psi}{\psi} +\braket{\dd \psi}{\psi}\big)}{\braket{\psi}{\psi}\big(\braket{\psi}{\psi}+  \braket{\psi}{\dd \psi} + \braket{\dd \psi}{\psi} + \braket{\dd \psi}{\dd \psi}\big)}}} \\
+                    &= \arccos^2{\sqrt{\frac{\big(1+ \braket{\psi}{\dd \psi}\big)\big(1+ \braket{\dd \psi}{\psi}\big)}{\big(1+  \braket{\psi}{\dd \psi} + \braket{\dd \psi}{\psi} + \braket{\dd \psi}{\dd \psi}\big)}}} \\
+                    &= \arccos^2\sqrt{\frac{(1+x)(1+y)}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{\frac{1+x+y+xy}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{1 + \frac{xy-z}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{1+(xy-z)(1-(x+y+z))} \\
+                    &= \arccos^2 \sqrt{1 + (xy-z)} \\
+                    &= \arccos^2 \left(1 + \frac{1}{2}(xy-z)\right) 
+                \end{align*}
+                \]
+                
+                <p>Letting $-\ep = \frac{1}{2}(xy-z)$ we have:</p>
+                \[
+                \begin{align*}
+                    g &= \arccos(1-\ep)  \\
+                    \implies \cos(g) &=  1-\ep \\
+                    \implies 1 - \frac{g^2}{2} &= 1 - \ep \\
+                    \implies\ep &= \frac{g^2}{2} \\
+                    \implies g&= \sqrt{2\ep} \\
+                    \implies \arccos^2(1-\ep) &= 2\ep \\
+                    \iff \arccos^2(1+\frac{1}{2}(xy-z) &= -(xy-z) = z-xy
+                \end{align*}
+                \]
+                
+                <p>Therefore, re-exchanging our variables, we have that the Fubini Study metric is</p>
+                \[
+                \begin{align*}
+                    \dd s^2 &=  \braket{\dd \psi}{\dd \psi} - \braket{\dd \psi}{\psi}\braket{\psi}{\dd \psi}
+                \end{align*}
+                \]
+                
+                <p>If we repeat the calculation for a non-normalized state, then we instead divide the numerator and denominator inside the square root by $\braket{\psi}{\psi}\braket{\psi}{\psi}$ and so</p>
+                \[
+                \begin{align*}
+                    \dd s^2 &= \text{dist}_{FS}^2 (\psi,\psi + \dd \psi) \\
+                    &=\arccos^2\sqrt{\frac{\braket{\psi}{\psi + \dd \psi}\braket{\psi + \dd \psi}{\psi}}{\braket{\psi}{\psi}\braket{\psi + \dd \psi}{\psi + \dd \psi}}} \\
+                    &= \arccos^2{\sqrt{\frac{\big(\braket{\psi}{\psi} +\braket{\psi}{\dd \psi}\big)\big(\braket{\psi}{\psi} +\braket{\dd \psi}{\psi}\big)}{\braket{\psi}{\psi}\big(\braket{\psi}{\psi}+  \braket{\psi}{\dd \psi} + \braket{\dd \psi}{\psi} + \braket{\dd \psi}{\dd \psi}\big)}}} \\
+                    &= \arccos^2{\sqrt{\frac{\big(1+ \frac{\braket{\psi}{\dd \psi}}{\braket{\psi}{\psi}}\big)\big(1+ \frac{\braket{\dd \psi}{\psi}}{\braket{\psi}{\psi}}\big)}{\big(1+  \frac{\braket{\psi}{\dd \psi}}{\braket{\psi}{\psi}} + \frac{\braket{\dd \psi}{\psi}}{\braket{\psi}{\psi}} + \frac{\braket{\dd \psi}{\dd \psi}}{\braket{\psi}{\psi}}\big)}}} \\
+                    &= \arccos^2\sqrt{\frac{(1+x)(1+y)}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{\frac{1+x+y+xy}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{1 + \frac{xy-z}{1+x+y+z}} \\
+                    &= \arccos^2 \sqrt{1+(xy-z)(1-(x+y+z))} \\
+                    &= \arccos^2 \sqrt{1 + (xy-z)} \\
+                    &= \arccos^2 \left(1 + \frac{1}{2}(xy-z)\right)  \\
+                    &\dots\\
+                    &= z-xy \\
+                    &= \frac{\braket{\dd \psi}{\dd \psi}}{\braket{\psi}{\psi}} - \frac{\braket{\psi}{\dd \psi}\braket{\psi}{\dd \psi}}{\braket{\psi}{\psi}\braket{\psi}{\psi}} \\
+                    &= \frac{\braket{\dd \psi}{\dd \psi}}{\braket{\psi}{\psi}} - \frac{\braket{\psi}{\dd \psi}\braket{\psi}{\dd \psi}}{\big| \braket{\psi}{\psi}\big|^2}
+                \end{align*}
+                \]
+                
+                <p>Alternatively, let $\ket \psi$ be some normalized state, the we can decompose $\ket{\dd \psi}$ into parallel and perpendicular components as follows</p>
+                \[
+                \begin{align*}
+                    \ket{\dd \psi_\perp} = \ket{\dd \psi} - \braket{\psi}{\dd \psi}\ket{\psi}
+                \end{align*}
+                \]
+                
+                <p>As a check, $\braket{\psi}{\dd \psi_\perp}$ should equal zero. So</p>
+                \[
+                \begin{align*}
+                    \braket{\psi}{\dd \psi_\perp} &= \bra{\psi}\big(\ket{\dd \psi}-\braket{\psi}{\dd \psi}\ket{\psi}\big) \\
+                    &= \braket{\psi}{\dd \psi}- \braket{\psi}{\dd \psi} \braket{\psi}{\psi} \\
+                    &= \braket{\psi}{\dd \psi}- \braket{\psi}{\dd \psi} \\
+                    &=  0
+                \end{align*}
+                \]
+                
+                <p>Continuing our calculation,</p>
+                \[
+                \begin{align*}
+                    \dd s^2 &= \braket{\dd \psi _\perp}{\dd \psi_\perp} \\
+                    &= \big(\bra{\dd \psi} - \braket{\dd \psi}{\psi}\bra{\psi}\big) \big(\ket{\dd \psi} - \braket{\psi}{\dd \psi}\ket{\psi}\big) \\
+                    &= \braket{\dd \psi}{\dd \psi} - \braket{\psi}{\dd \psi} \braket{\dd \psi}{\psi} - \braket{\dd \psi}{\psi} \braket{\psi}{\dd \psi} +  \braket{\dd \psi}{\psi} \braket{\psi}{\dd \psi}\braket{\psi}{\psi} \\
+                    &= \braket{\dd \psi}{\dd \psi} - \braket{\psi}{\dd \psi} \braket{\dd \psi}{\psi} - \braket{\dd \psi}{\psi} \braket{\psi}{\dd \psi} +  \braket{\dd \psi}{\psi} \braket{\psi}{\dd \psi} \\
+                    &= \braket{\dd \psi}{\dd \psi} - \braket{\psi}{\dd \psi}\braket{\dd \psi}{\psi}
+                \end{align*}
+                \]
+
+                <p>Which is the same metric that we got from examining the infinitesimal Fubini Study distance.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

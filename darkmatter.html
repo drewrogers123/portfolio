@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Matter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<style>
+    p a {
+        font-size: inherit;
+    }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Strongly Interacting Massive Particles</h2>
+                <p><strong>Description:</strong> From January 2022-May 2024 I conducted dark matter research under the supervision of
+                    <a href="https://wtangarife.sites.luc.edu/">Dr. Walter Tangarife</a> at Loyola University Chicago. My work began focusing on cosmology, before being assigned a project on particle physics.
+                    I have included some of the documentation of my work below.</p>
+                
+                <h3>Geometry</h3>
+                
+                <h4>Metrics</h4>
+                <p>A metric takes in two coordinates and gives the distance (or line element) between them. In 3 dimensional Cartesian and spherical coordinate systems:</p>
+                $$\text{d}\ell^2 = \text{d}x^2 + \text{d}y^2 + \text{d}z^2 = \sum_{i,j=1}^{3} \text{d}x^i \text{d}x^j \delta_{ij}$$
+                $$\text{d}\ell^2 = \text{d}r^2 + r^2 \text{d}\theta^2 + r^2 \sin^2{\theta}\text{d}\phi^2 = \sum_{i,j=1}^{3} \text{d}x^i \text{d}x^j g_{ij}$$
+                <p>where $\delta_{ij}$ and $g_{\mu\nu}$ are the metrics in each coordinate system. In diagonal form:</p>
+                $$\text{diag}(1,1,1) \quad \text{and} \quad \text{diag}(1, r^2, r^2\sin^2{\theta})$$
+
+                <h4>Homogeneity and Isotropy</h4>
+                <p>When viewed from a massive scale, the universe is homogeneous and isotropic. The four-dimensional line element can be written as:</p>
+                $$\text{d}s^2 = \text{d}t^2 - a^2(t)\text{d}\ell^2$$
+                <p>where $a(t)$ represents the expansion of the universe.</p>
+
+                <h4>Curvature</h4>
+                <p>The metric can be adjusted to account for curvature of 3-spaces:</p>
+                $$\text{d}\ell^2 = \frac{\text{d}r^2}{1-kr^2} + r^2(\text{d}\theta^2 + \sin^2{\theta}\text{d}\phi^2)$$
+
+                <h4>Robertson-Walker Metric</h4>
+                <p>Combining the expansion and curvature terms yields the Robertson-Walker metric:</p>
+                $$\text{d}s^2 = \text{d}t^2 - a^2(t)\left(\frac{\text{d}r^2}{1-kr^2} + r^2(\text{d}\theta^2 + \sin^2{\theta}\text{d}\phi^2)\right)$$
+
+                <h4>Coordinates in an Expanding Universe</h4>
+                $$r_{\text{phys}} = a(t)r$$
+                $$v_{\text{phys}} = \frac{\text{d}r_{\text{phys}}}{\text{d}t} = a(t)\dot{r} + \dot{a}r = v_{\text{peculiar}} + Hr_{\text{phys}}$$
+                <p>where $H \equiv \frac{\dot{a}}{a}$ is the Hubble parameter.</p>
+
+                <h4>Christoffel Symbols</h4>
+                <p>The Christoffel symbol $\Gamma_{\alpha\beta}^{\mu}$ describes how basis vectors change in curved spacetime:</p>
+                $$\Gamma_{\alpha\beta}^{\mu} = \frac{1}{2}g^{\mu\gamma}(\partial_\alpha g_{\beta\gamma} + \partial_\beta g_{\alpha\gamma} - \partial_\gamma g_{\alpha\beta})$$
+                <p>For the Robertson-Walker metric with $g_{\mu\nu} = \text{diag}(1, -a^2, -a^2, -a^2)$, key non-zero components are:</p>
+                $$\Gamma_{ij}^0 = a\dot{a}\delta_{ij}, \quad \Gamma_{0j}^i = \frac{\dot{a}}{a}\delta_j^i$$
+
+                <h3>Dynamics</h3>
+
+                <h4>Conservation of the Stress-Energy Tensor</h4>
+                <p>The stress-energy tensor satisfies:</p>
+                $$\nabla_\mu T^{\mu}_{\nu} = 0$$
+                <p>For a perfect fluid, this yields the continuity equation:</p>
+                $$\dot{\rho} + 3\frac{\dot{a}}{a}(\rho + P) = 0$$
+
+                <h4>Ricci Scalar</h4>
+                <p>The Ricci scalar for the Robertson-Walker metric is:</p>
+                $$R = -6\left[\frac{\ddot{a}}{a} + \left(\frac{\dot{a}}{a}\right)^2 + \frac{k}{a^2}\right]$$
+
+                <h4>Friedmann Equations</h4>
+                <p>The Einstein field equations applied to the Robertson-Walker metric yield the Friedmann equations:</p>
+                $$\left(\frac{\dot{a}}{a}\right)^2 = \frac{8\pi G}{3}\rho - \frac{k}{a^2}$$
+                $$\frac{\ddot{a}}{a} = -\frac{4\pi G}{3}(\rho + 3P)$$
+
+                <h4>Age of the Universe (Matter-Dominated)</h4>
+                <p>Assuming only matter in the universe:</p>
+                $$\left(\frac{\dot{a}}{a}\right)^2 = H_0^2 a^{-3}$$
+                <p>Integrating gives $t_0 \approx 9.61 \times 10^9$ years, which is only 70% of the observed age (13.6 billion years).</p>
+
+                <h4>Dark Energy and $\Omega_m$</h4>
+                <p>Including a cosmological constant (dark energy):</p>
+                $$H^2 = H_0^2(\Omega_m a^{-3} + \Omega_\Lambda)$$
+                <p>where $\Omega_m + \Omega_\Lambda = 1$. Matching the observed age of 13.6 billion years yields $\Omega_m \approx 0.36$, indicating that about 64% of the universe's energy density is dark energy.</p>
+                <h3>Particle Physics: Strongly Interacting Massive Particles (SIMPs)</h3>
+                <p>While I no longer have the notebooks in which the research was documented, I still have some of the background material and results from the final report. I've included them below:</p>
+                
+             
+                
+                <p>The SIMP model relies on $2 \to 2$, $3 \to 2$, and $4 \to 2$ annihilation mechanisms. Each mechanism predicts a different mass range for dark matter:</p>
+                <p>$4 \to 2$ annihilations in the TeV range, $3 \to 2$ annihilations in the GeV range, and $2 \to 2$ annihilations in the keV range</p>
+                
+                <p>This project focused on a model using the $3 \to 2$ annihilation mechanism combined with a $2 \to 2$ self-interaction process. The $2 \to 2$ self-interaction process ensures that all dark matter particles remain at equal temperatures (kinetic equilibrium), while the $3 \to 2$ annihilation mechanism is responsible for freeze-out.</p>
+                
+                <p>The Boltzmann equation for the number density of dark matter particles is:</p>
+                $$\partial_t n + 3Hn = -\big(n^3 - n^2 n_{\text{eq}}\big)\langle\sigma v^2\rangle_{3\to 2} - \big(n^2 - n_{\text{eq}}^2\big)\langle\sigma v\rangle_{\text{ann}}$$
+                <p>This can be transformed using the yield $Y = n/s$ (where $s$ is the entropy density) to solve for the relic abundance.</p>
+                <p>I also have some of the definitions, parameterizations, and equations used in my final model. Here are a few key ones:</p>
+                
+                $$\begin{align*}
+                \partial_t n + 3Hn &= -\big(n^3 - n^2 n_{\text{eq}}\big)\langle\sigma v^2\rangle_{3\to 2} - \big(n^2 - n_{\text{eq}}^2\big)\langle\sigma v\rangle_{\text{ann}} \\
+                \langle\sigma v^2\rangle_{\text{ann}} &\equiv \frac{\epsilon^2}{m_{\text{DM}}^2} \\
+                \langle\sigma v^2\rangle_{3\to 2} &\equiv \frac{\alpha_{\text{eff}}^3}{m_{\text{DM}}^5} \\
+                \Omega h^2 &= \frac{10^9 \cdot x_F \cdot g_{\ast,F}^{-1/2}}{\text{GeV} \cdot \langle\sigma v^2\rangle_{3\to 2} \cdot M_{\text{Pl}}} \\
+                \alpha_{\text{eff}} &= \frac{1}{1.4} \cdot m_{\text{DM}} \cdot x_F^{4/3} \cdot g_{\ast,F}^{1/6} \cdot (\kappa \cdot T_{\text{eq}})^{-2/3} \cdot M_{\text{Pl}}^{1/3} \\
+                \alpha_{\text{eff}} &= \left(\frac{\Omega h^2 \cdot m_{\text{DM}}^6 \cdot x_F^{1/3} \cdot (\kappa \cdot T_{\text{eq}})^{-2/3} \cdot M_{\text{Pl}} \cdot g_{\ast,F}^{2/3} \cdot \text{GeV}}{10^9}\right)^{1/4} \\
+                \kappa &= \frac{2\pi^2 c g_{\ast,s}(T)}{45} \\
+                H &= 1.67\sqrt{g_\ast}\frac{m^2}{M_{\text{Pl}}\cdot x^2}
+                \end{align*}$$
+
+                <p><strong>Technologies:</strong> Mathematica, Python</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

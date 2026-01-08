@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algebraic Geometry</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      macros: {
+        avar: "\\text{AVar}",
+        alg: "\\text{Alg}",
+        opp: "\\text{op}",
+        homm: "\\text{Hom}",
+        mor: "\\text{Mor}",
+        ob: "\\text{Ob}"
+      }
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Affine Algebraic Geometry</h2>
+                <p><strong>Description:</strong> The following are notes on affine algebraic geometry from a graduate seminar I gave in 2024, covering the Zariski topology, affine varieties, and morphisms.</p>
+                
+                <p><strong>General Information:</strong> $S$ is a set of polynomials, $V(S)$ is the set of all points in a space such that all the polynomials in $S$ evaluate to $0$ at those points.</p>
+                \[
+                \begin{align*}
+                    S &\subseteq \mathbb{C}[x_1,\dots, x_n] \\
+                    V(S) &:= \{z \in \mathbb{C}^n : f(z) = 0 \quad \forall f \in S\}
+                \end{align*}
+                \]
+                
+                <p><strong>Example:</strong></p>
+                \[
+                \begin{align*}
+                    S &= \{x_1, x_2\} \subseteq \mathbb{C}[x_1,x_2] \quad : \quad x_1(z_1,z_2) = z_1 \quad x_2(z_1,z_2) = z_2 \\
+                    V(S) &= \{z \in \mathbb{C}^2 \quad :\quad  x_1(z) = 0 \text{ and }  x_2(z) = 0\} \\
+                    &= \{0,0\}
+                \end{align*}
+                \]
+                
+                <p><strong>Example 2:</strong></p>
+                \[
+                \begin{align*}
+                    S &= \{x_1, x_2\} \subseteq \mathbb{C}[x_1,x_2] \quad : \quad x_1(z_1,z_2) = z_1 \quad x_2(z_1,z_2) = z_2 \\
+                    V(S) &= \{z \in \mathbb{C}^2 \quad :\quad  x_1(z)x_2(z) = 0\} \\
+                    &= \text{the coordinate axes}
+                \end{align*}
+                \]
+                
+                <p>If all of the above is the same but instead of $x_1()$ and $x_2()$ we have just $(x_1x_2)(z) = 0 \Rightarrow z_1 z_2 = 0$</p>
+                
+                <p>The following collection of closed sets defines the Zariski topology on $\mathbb{C}^n$:</p>
+                \[
+                \begin{align*}
+                    \{V(S) : S \subseteq \mathbb{C}[x_1, \dots , x_n]\}
+                \end{align*}
+                \]
+                
+                <p>Where if $S \subseteq \mathbb{C}[x_1, \dots , x_n]$ then $V(S)$ inherits the Zariski subspace topology.</p>
+                
+                <p><strong>Nice functions:</strong> (on $V(S)$)</p>
+                \[
+                \begin{align*}
+                    \mathbb{C}[V(S)] &= \{f\big|_{V(S)} : f \in \mathbb{C}[x_1, \dots , x_n]\} \\ &\underset{\text{subalg}}{\subseteq} C^0(V(S), \mathbb{C}) 
+                \end{align*}
+                \]
+                
+                <p>Where $V(S)$ is equipped with the Zariski subspace topology and $\mathbb{C}$ is equipped with the Zariski topology.</p>
+                
+                <p><strong>Affine Varieties:</strong> Intuition: An affine algebraic variety is a pair $(V(S), \mathbb{C}[V(S)])$ (the vanishing locus of a set of function and the nice function on the vanishing  locus) up to isomorphism.</p>
+                
+                <p><strong>Definition:</strong> An affine algebraic variety is a pair $(X, \mathbb{C}[X])$ of a topological space $X$ and a subalgebra $\mathbb{C}[X] \subseteq C^0 (X, \mathbb{C})$ such that $\exists n \in \mathbb{Z}_{\geq 0}$, a subset $S \subseteq \mathbb{C}[x_1, \dots x_n]$ and a homomorphism $f: X \mapsto V(S)$ such that $f^*(\mathbb{C}[V(S)]) = \mathbb{C}[X]$</p>
+                
+                <p><strong>Examples of Affine Varieties:</strong></p>
+                <ol>
+                    <li>$S \subseteq \mathbb{C}[x_1, \dots, x_n] \Rightarrow (V(S), \mathbb{C}[V(S)])$ is an algebraic variety. 
+                    Trivially, if $S={0}$, then $V(S) = \mathbb{C}^n$, $\mathbb{C}[V(S)] = \mathbb{C}[x_1, \dots, x_n]$ \\
+                    $\Rightarrow (\mathbb{C}^n, \mathbb{C}[x_1,\dots, x_n])$ is an affine algebraic variety.</li>
+                    <li>Let $V$ be a f.d. v.s. with $n = \dim V$ and $\text{Sym}(V^*)$ the symmetric algebra of $V^*$ ... There is more, but I don't feel confident enough in all the concepts in this example to properly explain it.</li>
+                </ol>
+                
+                <p><strong>Morphisms of Affine Varieties:</strong></p>
+                
+                <p><strong>Examples:</strong> Suppose that $\varphi : \mathbb{C}^m \to \mathbb{C}^n$ is a map with $\varphi = (\varphi_1,\dots, \varphi_n)$ where $\varphi_i : \mathbb{C}^m \to \mathbb{C}$. For example:</p>
+                \[
+                \begin{align*}
+                    \varphi : \mathbb{C}^3 &\to \mathbb{C}^2 \\
+                    \varphi(z_1,z_2,z_3) &= (z_1^3z_2^2z_3^5 - 18z_1z_2^4+\pi, -8z_1z_2^3) = (\varphi_1,\varphi_2)
+                \end{align*}
+                \]
+                
+                <p>is a morphism.</p>
+                
+                \[
+                \begin{align*}
+                    \varphi : \mathbb{C}^3 &\to \mathbb{C}^2 \\
+                    \varphi(z_1,z_2,z_3) &= (e^z_1\log(z_2)z_3, |z_1|)
+                \end{align*}
+                \]
+                
+                <p>is not a morphism.</p>
+                
+                <p><strong>Equivalence with the Reduced, Finitely Generated Algebras:</strong> Define the category AVar as follows: $\ob_{\avar}$ are affine algebraic varieties, $\mor_{\avar}$ are morphisms between algebraic varieties.</p>
+                
+                <p><strong>Lemma:</strong> let $X,Y,Z$ be affine algebraic varieties, $f : X \to Y$, $g: Y \to Z$ morphisms. Then $g \circ f : X \to Z$ is a morphism of affine algebraic varieties.</p>
+                
+                <p><strong>Recall:</strong> Let $X,Y$ be topological spaces with $f: X \mapsto Y$ a continuous map. Consider the algebras: $C^0(X, \mathbb{C})$ and $C^0(Y,\mathbb{C})$ where $\mathbb{C}$ has the Zariski topology. We have an algebra homomorphism:</p>
+                \[
+                \begin{align*}
+                    f^*: C^0(Y,\mathbb{C}) &\mapsto C^0(X, \mathbb{C}) \\
+                    \varphi &\mapsto \varphi \circ f
+                \end{align*}
+                \]
+                
+                <p>Now define another category $\alg$ as follows: $\ob_{\alg}$ are reduced, finitely generated, commutative algebras (over $\mathbb{C}$). That is, we have an algebra $A$ over $\mathbb{C}$ such that:</p>
+                <ul>
+                    <li>if $a \in A$ and $a^n = 0$ for some $n \in \mathbb{N}$, then $a=0$ (Reduced).</li>
+                    <li>$ab = ba \quad \forall a,b \in A$ (Commutative).</li>
+                    <li>$\exists n \in \mathbb{Z}_{\geq 0}$ and a surjective algebra morphism  
+                    \[
+                    \begin{align*}
+                        \mathbb{C}[x_1,\dots,x_n] \overset{\varphi}{\to} A 
+                    \end{align*}
+                    \]
+                    \[
+                    \begin{align*}
+                        \forall a \in A \Rightarrow \exists f \in \mathbb{C}[x_1,\dots,x_n] \text{ s.t. } \varphi(f) = a 
+                    \end{align*}
+                    \]
+                    And,
+                    \[
+                    \begin{align*}
+                        f = \sum a_{i_1,\dots, i_n}x_1^{i_1}\dots x_n^{i_n} \Rightarrow a = \varphi(f) = \sum a_{i_1,\dots, i_n}\varphi(x_1^{i_1})\dots \varphi(x_n^{i_n})
+                    \end{align*}
+                    \]
+                    (Finitely Generated)</li>
+                </ul>
+                
+                <p>$\mor_{\alg}$ = algebra morphisms.</p>
+                
+                <p><strong>Lemma:</strong> let $A,B,C$ be algebras, with $f: A \to B$ and $g: B \to C$ algebra morphisms. Then $g \circ f: A \to C$ is an algebra morphism.</p>
+                
+                <p>Define a functor $\mathcal{F}: \avar \to \alg^{\opp}$ where the opposite (op) category has the same objects, but with morphisms in the opposite direction. And:</p>
+                
+                <ol>
+                    <li><strong>Objects:</strong>
+                    \[
+                    \begin{align*}
+                        \mathcal{F}(X) = \mathbb{C}[X] \text{ where } X \text{ is an affine variety}
+                    \end{align*}
+                    \]
+                    </li>
+                    <li><strong>Morphisms:</strong> Let $X,Y$ be affine algebraic varieties with $f \in \homm_{\avar}(X,Y)$. Then $\mathcal{F}(f) \in \homm_{\alg^{\opp}}(\mathbb{C}[X],\mathbb{C}[Y]) = \homm_{\alg}(\mathbb{C}[Y],\mathbb{C}[X])$ with:
+                    \[
+                    \begin{align*}
+                        f^* : \mathbb{C}[Y] &\to \mathbb{C}[X] \\
+                        \varphi &\mapsto \varphi \circ f
+                    \end{align*}
+                    \]
+                    </li>
+                </ol>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

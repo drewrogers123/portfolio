@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relativity</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Relativity</h2>
+                <p><strong>Description:</strong> During the 2022-2023 Academic Year, I participated in an independent study on the foundations of special and general relativity. I've attached a copy of the paper that I wrote with the research group.</p>
+                <iframe src="images/RelativityWriteup.pdf" style="width: 100%; height: 75vh; border: 1px solid #ccc; margin: 1em 0;"></iframe>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

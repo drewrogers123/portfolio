@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geodesic</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      macros: {
+        dd: "\\mathrm{d}",
+        dv: "\\frac{\\mathrm{d}}{\\mathrm{d}}",
+        pdv: "\\frac{\\partial}{\\partial}",
+        prime: "'",
+        pd: "\\frac{\\partial}{\\partial}",
+        Vec: ["\\mathbf{#1}", 1],
+        vec: ["\\mathbf{#1}", 1]
+      }
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Geodesic Equation</h2>
+                <p>The following are my notes for a small graduate talk I gave deriving the geodesic equation using variational calculus. 
+                The audience was primarily pure mathematicians with little to no physics background, so I also gave some elementary intuition for classical Euler-Lagrange in the first half of the talk.</p>
+                
+                <p><strong>Conventions:</strong> Unless otherwise noted, the prime notation will indicate a derivative with respect to $x$. That is, $y'(x) = \frac{\mathrm{d}y}{\mathrm{d}x}$. Meanwhile, dot notation will indicate a derivative with respect to time. That is, $\dot{y} = \frac{\mathrm{d}y}{\mathrm{d}t}$</p>
+                
+                <p><strong>Physical Intuition & Classical Euler-Lagrange:</strong> For a particle traveling along some path on a plane, we of course know that the shortest path between two points is a straight line. We calculate this first by observing that the length of any short section of the path is $\dd s = \sqrt{\dd x^2 + \dd y^2} = \sqrt{1 + y'(x)^2} \dd x$. Then if we let our starting point be $1 = (x_1,y_1)$ and our end point be $2=(x_2,y_2)$ we can integrate to find the length of our path as follows:</p>
+                \[
+                \begin{align*}
+                    \int_1^2 \dd s &= \int_1^2 \sqrt{1+y'(x)^2} \dd x \\
+                    &= \int_1^2 f(x,y,y') \dd x
+                \end{align*}
+                \]
+                
+                <p>For another example, we of course know (or are about to learn about) Fermat's principle, which states that <em>light takes a time-minimizing path</em>. Lots of great physics comes straight from this, and we will take some of it for granted to skip to the part that is important for us.</p>
+                
+                <p>Let $n\geq 1$ be the refractive index of some material, $c$ be the speed of light (in a vacuum), and $\dd s$ again be a short snippet of some path. Then $v = c/n \quad \& \quad  \dd s = v \dd t \implies \dd t = \frac1v \dd s \quad \& \quad \dd t = \frac nc \dd s $. Additionally, we again let our starting point be $1 = (x_1,y_1)$ and our end point be $2=(x_2,y_2)$. So to find the travel time of our photon (the particle model is easier to imagine, but the wave model works essentially the same way) we have:</p>
+                \[
+                \begin{align*}
+                    \int_1^2 \dd t &= \frac{1}{c} \int_1^2 n \dd s \\
+                    &= \frac 1c \int_1^2 n \sqrt{1 + y'(x)^2} \dd x \\
+                    &= \int_1^2 f(x,y,y') \dd x
+                \end{align*}
+                \]
+                
+                <p>Where we can of course pull $c$ out of our integral, since it is a constant, but we could have that $n$ is a function of $x, y $ or both.</p>
+                
+                <p>It is important to note that we may not always be looking for a minimum value of a function. Oftentimes finding maxima and saddle points is the goal of an optimization problems i.e. maximizing range, or finding Lagrange points, which are points in the Sun-Earth system where the two gravitational fields balance out and are a sort of unstable or semi-stable equilibrium for (relatively) small objects.</p>
+                
+                <p>In both of the two cases above, we have an integral $\int f(x,y,y')\dd x$ for which we'd like to find the shortest $y(x)$ (in time, length, or whatever else you care to minimize over). To do so, assuming that $y(x)$ is the "correct curve" let $\eta$ be some variation. That is, any curve between 1 and 2 can be represented as $W(x) =y(x) + \alpha\eta(x)$ for some choice of $\eta$. We of course must have that $\eta(1) = \eta(2) = 0$, and we've added a new parameter $\alpha$ so that we can easily obtain the "correct" path by setting $\alpha = 0$. So, $S(\alpha) = \int_1^2 f(x,W,W') \dd x = \int_1^2 f(x, y + \alpha \eta , y' + \alpha \eta') \dd x$. We vary our path in search of some extremum, so $\frac{\mathrm{d}S}{\mathrm{d}\alpha}\Big|_{\alpha = 0} = 0$:</p>
+                \[
+                \begin{align*}
+                    \frac{\mathrm{d}S}{\mathrm{d}\alpha} \Bigg|_{\alpha = 0} &= \int_1^2 \frac{\partial f}{\partial \alpha} \Bigg|_{\alpha = 0} \mathrm{d}x  \\
+                    &= \int_1^2 \bigg( \eta \frac{\partial f}{\partial y} + \eta' \frac{\partial f}{\partial y'} \bigg) \mathrm{d}x = 0
+                \end{align*}
+                \]
+                
+                <p>Since:</p>
+                \[
+                \begin{align*}
+                    \frac{\partial f}{\partial \alpha} \Bigg|_{\alpha = 0} &= \frac{\partial f}{\partial W} \frac{\partial W}{\partial \alpha}\Bigg|_{\alpha = 0} + \frac{\partial f}{\partial W'} \frac{\partial W'}{\partial \alpha}\Bigg|_{\alpha = 0} \\
+                    &= \eta \frac{\partial f}{\partial y} + \eta' \frac{\partial f}{\partial y'}
+                \end{align*}
+                \]
+                
+                <p>Integrating the second term by parts we get:</p>
+                \[
+                \begin{align*}
+                    \int_1^2 \eta'\frac{\partial f}{\partial y'} \mathrm{d}x = \bigg(\eta \frac{\partial f}{\partial y'}\bigg)\bigg|_1^2 - \int_1^2 \eta \frac{\mathrm{d}}{\mathrm{d}x} \frac{\partial f}{\partial y'} \mathrm{d}x
+                \end{align*}
+                \]
+                
+                <p>Now, since $\eta(1) = \eta(2) = 0$ we have:</p>
+                \[
+                \begin{align*}
+                    \int_1^2 \eta' \frac{\partial f}{\partial y'} \mathrm{d}x &= - \int_1^2 \eta \frac{\mathrm{d}}{\mathrm{d}x} \frac{\partial f}{\partial y'} \mathrm{d}x 
+                \end{align*}
+                \]
+                
+                <p>And so,</p>
+                \[
+                \begin{align*}
+                    \int_1^2 \bigg( \eta \frac{\partial f}{\partial y} + \eta' \frac{\partial f}{\partial y'}\bigg) &= \int_1^2 \eta \bigg( \frac{\partial f}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}x} \frac{\partial f}{\partial y'}\bigg) \mathrm{d}x = 0
+                \end{align*}
+                \]
+                
+                <p>And since this must be true, regardless of our choice of $\eta$, we have</p>
+                \[
+                \begin{align*}
+                    \frac{\partial f}{\partial y} - \frac{\mathrm{d}}{\mathrm{d}x} \frac{\partial f}{\partial y'} =0
+                \end{align*}
+                \]
+                
+                <p>Or, in some general coordinate $q$,</p>
+                \[
+                \begin{align*}
+                    \frac{\partial L}{\partial q} &= \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{q}}
+                \end{align*}
+                \]
+                
+                <p>We have introduced the <em>Lagrangian</em> $L = T - U$ (kinetic energy minus potential energy). Choosing to have $L$ to be a difference of energies seems arbitrary and as though it would be less useful than the total energy (which we call the <em>Hamiltonian</em>) and there is no simple explanation for this choice. The reasoning that is most straightforward is that this choice reduces to Newton's second law as follows:</p>
+                \[
+                \begin{align*}
+                    \frac{\partial L}{\partial q} &= -\frac{\partial U}{\partial q} = F_q \\
+                    \frac{\partial L}{\partial \dot{q}} &= \frac{\partial T}{\partial \dot{q}} = m\dot{q}
+                \end{align*}
+                \]
+                
+                <p>So,</p>
+                \[
+                \begin{align*}
+                    \frac{\partial L}{\partial q} &= \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial L}{\partial \dot{q}} \\
+                    \implies F_q &= m\ddot{q} \\
+                    \iff\Vec{F} &= m\Vec{a}
+                \end{align*}
+                \]
+                
+                <p><strong>Differential Geometry:</strong> Consider the Lagrangian:</p>
+                \[
+                \begin{align*}
+                    L = \frac{1}{2} g_{jk} \dot{x}^j\dot{x}^k
+                \end{align*}
+                \]
+                
+                <p>Which we can consider to represent a particle with zero potential moving freely on some manifold. Then the Euler-Lagrange equations are:</p>
+                \[
+                \begin{align*}
+                    \frac{\partial L}{\partial x^i} &= \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{x}^i} \qquad \qquad\qquad i = 1,2,\dots,n
+                \end{align*}
+                \]
+                
+                <p>Solving for each of the terms we have:</p>
+                \[
+                \begin{align*}
+                    \frac{\partial L}{\partial \dot{x}^i} &= \frac{1}{2}g_{jk}\delta^j_i \dot{x}^k + \frac{1}{2}g_{jk}\dot{x}^j \delta^k_i \\
+                    &= \frac 1 2 g_{ik}\dot{x}^k + \frac 1 2 g_{ij} \dot{x}^j\\
+                    \implies  \frac{\mathrm{d}}{\mathrm{d}t} \frac{\partial L}{\partial \dot{x}^i} &= \frac 1 2 \left( g_{ik} \ddot{x}^k + g_{ij}\ddot{x}^j + g_{ik,l}\dot{x}^l\dot{x}^k + g_{ij,l}\dot{x}^l\dot{x}^j \right) \qquad\qquad \qquad l = 1,2,\dots, n\\ 
+                    \frac{\partial L}{\partial x^i} &= \frac{1}{2} g_{jk,i}\dot{x}^j \dot{x}^k \\
+                    \therefore \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{x}^i} - \frac{\partial L}{\partial x^i} &= \frac 1 2 \left(  g_{ik} \ddot{x}^k + g_{ij}\ddot{x}^j + g_{ik,l}\dot{x}^l\dot{x}^k + g_{ij,l}\dot{x}^l\dot{x}^j -g_{jk,i}\dot{x}^j \dot{x}^k \right) = 0
+                \end{align*}
+                \]
+                
+                <p>Now, re-index as follows. First, let $g_{ik}\ddot{x}^k + g_{ij}\ddot{x}^j = 2g_{lm} \ddot{x}^m$, which is legal since in the first term we sum over $k$ and in the second term we sum over $j$. Then let $g_{ik,l}\dot{x}^l\dot{x}^k= g_{ik,j}\dot{x}^j\dot{x}^k$ and $g_{ij,l}\dot{x}^l\dot{x}^j = g_{ij,k}\dot{x}^j\dot{x}^k$. Again, both are completely legal, since we are changing the name of a summed over index so that we can remove all the $\dot{x}$ terms. Now, with these new indices, we have:</p>
+                \[
+                \begin{align*}
+                    \frac{\mathrm{d}}{\mathrm{d}t}\frac{\partial L}{\partial \dot{x}^i}-\frac{\partial L}{\partial x^i} &= g_{lm} \ddot{x}^m + \frac 1 2 \left(g_{lk,j} + g_{jl,k} - g_{jk,l}\right) \dot{x}^j \dot{x}^k = 0
+                \end{align*}
+                \]
+                
+                <p>We can contract to move all of the metrics into a single term:</p>
+                \[
+                \begin{align*}
+                    g_{lm} \ddot{x}^m + \frac 1 2 \left(g_{lk,j} + g_{jl,k} - g_{jk,l}\right) \dot{x}^j \dot{x}^k &= g^{il}g_{lm} \ddot{x}^m + \frac 1 2 g^{il}\left(g_{lk,j} + g_{jl,k} - g_{jk,l}\right) \dot{x}^j \dot{x}^k \\
+                    &=  \ddot{x}^i + \frac 1 2 g^{il}\left(g_{lk,j} + g_{jl,k} - g_{jk,l}\right) \dot{x}^j \dot{x}^k = 0
+                \end{align*}
+                \]
+                
+                <p>From here, it makes perfect mathematical sense to collect the sum/product of metrics in front of the pair of $\dot{x}$s into a single symbol to further simplify this equation. This leads directly to the definition of the Christoffel Symbol $\Gamma^i_{jk} = \frac 1 2 g^{il}\left(g_{lk,j} + g_{jl,k} - g_{jk,l}\right)$ and simplifies the above equation into:</p>
+                \[
+                \begin{align*}
+                    \ddot{x}^i + \Gamma^i_{jk}\dot{x}^j\dot{x}^k = 0
+                \end{align*}
+                \]
+                
+                <p>Both of which match our past results for the geodesic equation and Christoffel symbols.</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

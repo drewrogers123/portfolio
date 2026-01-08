@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">My Portfolio</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>About Me</h2>
+                <p> My background is in theoretical physics, where I earned a bachelors degree and completed PhD coursework. I now focus on modeling complex systems and solving optimization problems. </p>
+                <p> Outside of my work, I enjoy hiking, trail running, slacklining, and fishing.</p>
+                <img src="images/IMG_8726.jpg" alt="Photo 6" style="max-width: 25%; height: auto;">
+                <img src="images/IMG_7216.jpg" alt="Photo 2" style="max-width: 25%; height: auto;">
+                <img src="images/IMG_8069.jpg" alt="Photo 4" style="max-width: 25%; height: auto;">
+                <img src="images/IMG_8504.jpg" alt="Photo 5" style="max-width: 25%; height: auto;">
+                <img src="images/IMG_5872.jpg" alt="Photo 1" style="max-width: 25%; height: auto;">
+                <img src="images/IMG_8651.jpg" alt="Photo 1" style="max-width: 25%; height: auto;">
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

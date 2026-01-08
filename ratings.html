@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratings Algorithm</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\\[', right: '\\]', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false}
+            ]
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Elo-based Multiplayer Ratings System</h2>
+                <p><strong>Description:</strong> Over the past year I have developed a ratings system for the Utah State Disc Golf Team. 
+                    The system began as a excel spreadsheet, then I built an Elo-based algorithm in python, which now exists as a <a href="https://ratings-site.vercel.app/">web application</a> for long term use by the team. </p>
+                    <p><strong> Example:</strong> Below is a set of sample player scores for a variety of rounds. The system uses these scores to calculate player ratings, which are seen in the next sheet. Finally, I've included some visualizations of the rating distributions over time.
+                    This is not built into the web app, but is a relic from the python version of the project.</p>
+                    <img src="images/samplescores.png" alt="Photo 6" style="width: 100%; height: auto; margin: 1em 0;">
+                    <img src="images/sampleratings.png" alt="Photo 6" style="width: 100%; height: auto; margin: 1em 0;">
+                    <iframe src="images/MultiplayerEloGraphs.pdf" style="width: 100%; height: 75vh; border: 1px solid #ccc; margin: 1em 0;"></iframe>
+                <p><strong>Technologies:</strong> React, Node.js, Python, R</p>
+            </section>
+
+            <!-- 
+            <section class="project-detail">
+                <h2>Core Equations</h2>
+                
+                <h3>Expected Score</h3>
+                $$E_{ij} = \frac{1}{1 + 10^{(R_j - R_i)/400}}$$
+                With cap: $\text{diff} \in [-300, 300]$
+
+                <h3>Actual Score</h3>
+                $$S_{ij} = \begin{cases} 1.0 & \text{if } \text{score}_i < \text{score}_j \\ 0.0 & \text{if } \text{score}_i > \text{score}_j \\ 0.5 & \text{if tie} \end{cases}$$
+
+                <h3>Margin of Victory (MOV)</h3>
+                $$\text{MOV}_{ij} =  \frac{2.2\ln(1 + m)}{0.001 |R_i - R_j| + 2.2}$$
+
+                <h3>Aggregates for Player $i$</h3>
+                $$S_i = \sum_{j \neq i} S_{ij}, \quad E_i = \sum_{j \neq i} E_{ij}, \quad W_i = \sum_{j \neq i} \text{MOV}_{ij}$$
+                $$W_{\text{avg},i} = \frac{W_i}{n-1}$$
+
+                <h3>Rating Change</h3>
+                $$\Delta_i = 36 \times w_{\text{round}} \times W_{\text{avg},i} \times (S_i - E_i)$$
+
+                <h3>New Rating</h3>
+                $$R_i^{\text{new}} = R_i^{\text{old}} + \Delta_i \quad \text{(starting: } R = 1500\text{)}$$
+            </section>
+            -->
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

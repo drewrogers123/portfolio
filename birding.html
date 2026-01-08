@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birding </title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="index.html">Home</a></h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>Birding Optimizer</h2>
+                <p>I am currently developing a tool with a conservation biologist that helps birders select locations to visit based on a weighted probability of seeing a bird
+                     they haven't seen before. The algorithm fetches recent observations (last 30 days) from eBird hotspots within a defined radius, then calculates the 
+                     frequency of each species as a probability (sightings ÷ total checklists). For each location, it computes an "expected value"—the sum of probabilities 
+                     for all species not yet on your life list—representing the average number of new birds you'd likely see on a visit. Hotspots are then ranked using a 
+                     distance-weighted score (expected new species ÷ $\sqrt{\text{distance}}$), balancing the probability of seeing lifers against travel effort. A working demo focused on 
+                     Chicago's West Side is deployed on Vercel, allowing users to walk through the full pipeline with their own eBird API key and life list.</p>
+                <p><strong>Technologies:</strong> Python, R, rebird, ebirdst, </p>
+                <p><strong>Link:</strong> <a href="https://bird-optimizer.vercel.app/">View Project</a></p>
+            </section>
+        </main>
+
+        <footer>
+            <p>Copyright © Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

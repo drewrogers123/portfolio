@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratings Algorithm (College Basketball)</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        p a {
+            font-size: inherit;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '\\[', right: '\\]', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false}
+                ]
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="display: flex; justify-content: center; align-items: center; position: relative;">
+                <span style="position: absolute; left: 0;"><a href="index.html">Home</a></span>
+                <span>Drew Rogers</span>
+            </h1>
+        </header>
+
+        <main>
+            <section class="project-detail">
+                <h2>College Basketball Ratings System (In Development)</h2>
+                <p><strong>Status:</strong> This project is currently under active development. I have adapted my Elo-based rating system to rank NCAA Division I men's basketball teams using machine learning maximize predictive accuracy.
+                    </p>
+                <p>The following are the model's predictions for the outcome of selected games set to take place on January 14, 2026.</p>
+                <table style="width: 100%; border-collapse: collapse; margin: 1em 0;">
+                    <thead>
+                        <tr style="background-color: #f2f2f2;">
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Game</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Win Probability</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Projected Line</th>
+                            <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Projected Favorite</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Arizona St. @ Arizona</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Arizona St. 4.5%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Arizona St. -30.4</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Arizona</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Michigan @ Washington</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Michigan 84.7%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Michigan +17.0</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Michigan</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Iowa @ Purdue</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Iowa 16.2%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Iowa -16.3</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Purdue</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Duke @ California</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Duke 87.0%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Duke +18.9</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Duke</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Vanderbilt @ Texas</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Vanderbilt 77.9%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Vanderbilt +12.5</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Vanderbilt</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">TCU @ BYU</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">TCU 11.5%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">TCU -20.3</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">BYU</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois @ Northwestern</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois 76.6%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois +11.8</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">North Carolina @ Stanford</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">North Carolina 55.4%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">North Carolina +2.1</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">North Carolina</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Utah @ Texas Tech</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Utah 7.0%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Utah -25.7</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Texas Tech</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">South Carolina @ Arkansas</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">South Carolina 12.6%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">South Carolina -19.2</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Arkansas</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Nevada @ Utah St.</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Nevada 23.6%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Nevada -11.7</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Utah St.</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">VCU @ Rhode Island</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">VCU 56.7%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">VCU +2.7</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">VCU</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Butler @ Xavier</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Butler 39.1%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Butler -4.4</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Xavier</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Colorado @ Cincinnati</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Colorado 48.8%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Colorado -0.5</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Cincinnati</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">La Salle @ Richmond</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">La Salle 13.5%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">La Salle -18.5</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Richmond</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Auburn @ Missouri</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Auburn 58.4%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Auburn +3.4</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Auburn</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Kentucky @ LSU</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Kentucky 47.3%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Kentucky -1.1</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">LSU</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois St. @ Indiana St.</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois St. 60.8%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois St. +4.3</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Illinois St.</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UAB @ Tulane</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UAB 52.7%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UAB +1.1</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UAB</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCF @ Kansas St.</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCF 60.2%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCF +4.1</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCF</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">San Diego St. @ Wyoming</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">San Diego St. 62.4%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">San Diego St. +5.0</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">San Diego St.</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCLA @ Penn St.</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCLA 61.6%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCLA +4.7</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">UCLA</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Portland @ Pepperdine</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Portland 54.1%</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Portland +1.6</td>
+                            <td style="border: 1px solid #ddd; padding: 8px;">Portland</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; Drew Rogers.</p>
+        </footer>
+    </div>
+</body>
+</html>

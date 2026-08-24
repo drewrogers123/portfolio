@@ -6,11 +6,38 @@
     <title>Elo Arbitrage Engine (work in progress)</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/languages/python.min.js"></script>
     <style>
         p a {
             font-size: inherit;
+        }
+        .code-block {
+            margin: 24px 0 36px;
+        }
+        .code-block h3 {
+            font-size: 15px;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .code-block h3 a {
+            font-size: inherit;
+        }
+        .code-block pre {
+            background: #f6f8fa;
+            border: 1px solid #ddd;
+            padding: 16px 18px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .code-block code.hljs {
+            background: transparent;
+            padding: 0;
         }
     </style>
     <script>
@@ -23,6 +50,7 @@
                     {left: '\\(', right: '\\)', display: false}
                 ]
             });
+            hljs.highlightAll();
         });
     </script>
 </head>
@@ -37,14 +65,176 @@
 
         <main>
             <section class="project-detail">
-                <h2>Elo Arbitrage Engine (work in progress)</h2>
-                <p> This project aims to evolve my Elo-based ratings system into a systematic arbitrage engine for institutional capital markets. By treating financial assets as competitive agents within a sector-specific "league," 
-                    the engine utilizes Bayesian inference to estimate latent intrinsic value. I use Optuna to optimize hyperparameters to maximize risk-adjusted returns, turning my previously developed predictive framework 
-                    into a scalable relative-value strategy.</p>
-                <p><strong>Architecture:</strong> Latent Strength Estimization (based on performance deltas), Bayesian Updating, Sector Leagues</p>
-                <p><strong>Optimization:</strong> Optuna Hyperparameter Search, Optimizing for the Information Ratio and Maximum Drawdown, Pruning Logic</p>
-                <p><strong>Execution:</strong> Relative-Value Spreads, Convergence Trading, Market Neutrality</p>
-                <p>This project is currently under development. More details will be available soon.</p>
+                <h2>Sample Code for College Basketball Ratings System</h2>
+                <p> This page contains the sample code for my college basketball ratings system that I used during the 2025-2026 season. There are obvious flaws (asymmetric k factors, etc.) and some of the code is not very clean, but the model is still functional. I will keep the dataset private, but the dataset can be nearly replicated with the information found at 
+                    <a href="https://kenpom.com/cbbga24.txt">https://kenpom.com/cbbga24.txt</a>. I will also keep the ML-style hyperparameter fitting private, but this too is fairly straightforward to replicate. </p>
+
+                <div class="code-block">
+                    <h3><a href="elo_engine.py" download>elo_engine.py</a></h3>
+                    <pre><code class="language-python">import math
+import pandas as pd
+
+
+def expected_score(r_i, r_j):
+    diff = max(-1000, min(1000, r_j - r_i))
+    return 1.0 / (1.0 + 10.0 ** (diff / 400.0))
+
+def mov_multiplier(margin, rating_diff, mov_k, mov_divisor):
+    if margin &lt;= 0: return 1.0
+    # fivethirtyeight standard: denominator = (0.001 * elo_diff) + 2.2
+    denominator = (mov_divisor * rating_diff) + mov_k
+    # safety check to prevent division by zero or negative values
+    if denominator &lt;= 0.0001: denominator = 0.0001 
+    return math.log(margin + 1) * (mov_k / denominator)
+
+def compute_team_elo(long_df, priors=None, **params):
+    # parameter extraction (with defaults)
+    base_k = params.get(&#x27;base_k&#x27;, 24.0)
+    start_rating = params.get(&#x27;start_rating&#x27;, 1500.0)
+    home_adv = params.get(&#x27;home_adv&#x27;, 65.0)
+    k_threshold_1 = params.get(&#x27;k_threshold_1&#x27;, 8)
+    k_mult_1 = params.get(&#x27;k_mult_1&#x27;, 2.0)
+    k_threshold_2 = params.get(&#x27;k_threshold_2&#x27;, 15)
+    k_mult_2 = params.get(&#x27;k_mult_2&#x27;, 1.5)
+    mov_k = params.get(&#x27;mov_k&#x27;, 2.2)
+    mov_divisor = params.get(&#x27;mov_divisor&#x27;, 0.001)
+    regress_weight = params.get(&#x27;regress_weight&#x27;, 0.75)
+
+    ratings = {}
+    games_played = {}
+    history_rows = []
+    
+    for seq, group in long_df.groupby(&quot;game_seq&quot;, sort=False):
+        if len(group) != 2: continue
+        
+        away_data, home_data = group.iloc[0], group.iloc[1]
+        t_a, t_h = away_data[&quot;Team&quot;], home_data[&quot;Team&quot;]
+        
+        for team in [t_a, t_h]:
+            if team not in ratings:
+                if priors and team in priors:
+                    # Regression to the mean
+                    ratings[team] = (priors[team] * regress_weight) + (start_rating * (1 - regress_weight))
+                else:
+                    ratings[team] = start_rating
+                games_played[team] = 0
+        
+        r_a_base, r_h_base = ratings[t_a], ratings[t_h]
+        hca_effect = 0 if home_data[&quot;is_neutral&quot;] else home_adv
+        
+        # expected probs
+        exp_a = expected_score(r_a_base, r_h_base + hca_effect)
+        s_a, s_h = away_data[&quot;Score&quot;], home_data[&quot;Score&quot;]
+        act_a = 1.0 if s_a &gt; s_h else (0.0 if s_a &lt; s_h else 0.5)
+        
+        margin = abs(s_a - s_h)
+        # rating difference: winner - loser
+        if s_a &gt; s_h:
+            r_diff = r_a_base - (r_h_base + hca_effect)
+        else:
+            r_diff = (r_h_base + hca_effect) - r_a_base
+            
+        multiplier = mov_multiplier(margin, r_diff, mov_k, mov_divisor)
+
+        # k-factor logic
+        def get_k(count):
+            if count &lt; k_threshold_1: return base_k * k_mult_1
+            if count &lt; k_threshold_2: return base_k * k_mult_2
+            return base_k
+
+        k_a, k_h = get_k(games_played[t_a]), get_k(games_played[t_h])
+        
+        # update ratings
+        delta = multiplier * (act_a - exp_a)
+        ratings[t_a] += k_a * delta
+        ratings[t_h] -= k_h * delta 
+        
+        games_played[t_a] += 1
+        games_played[t_h] += 1          
+        
+        history_rows.append({
+            &quot;game_seq&quot;: seq, &quot;actual&quot;: act_a, &quot;expected&quot;: exp_a, 
+            &quot;team&quot;: t_a, &quot;opp&quot;: t_h, &quot;date&quot;: away_data.get(&#x27;date&#x27;, None)
+        })
+            
+    final_df = pd.DataFrame([{&quot;team&quot;: t, &quot;rating&quot;: r} for t, r in ratings.items()])
+    return final_df.sort_values(&quot;rating&quot;, ascending=False), pd.DataFrame(history_rows)
+</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <h3><a href="test_optimized_matchups.py" download>test_optimized_matchups.py</a></h3>
+                    <pre><code class="language-python">import pandas as pd
+import json
+
+# 1. load your optimized parameters
+with open(&quot;yourfile.json&quot;, &quot;r&quot;) as f:
+    best_params = json.load(f)
+
+# 2. load the rankings
+final_ratings = pd.read_csv(&quot;yourfile.csv&quot;)
+
+hca = best_params.get(&#x27;home_adv&#x27;, 65.0)
+print(f&quot;=== MATCHUP PREDICTIONS (HCA: {hca:.1f}) ===\n&quot;)
+
+# 3. store results for csv
+matchup_results = []
+
+# define matchups
+matchups = [
+    (&quot;TCU&quot;, &quot;Ohio St.&quot;),
+    (&quot;Idaho&quot;, &quot;Houston&quot;)
+]
+
+# 4. process each matchup and collect results
+for team_a, team_b in matchups:
+    try:
+        # extract ratings
+        r_a = final_ratings.loc[final_ratings[&#x27;team&#x27;] == team_a, &#x27;rating&#x27;].values[0]
+        r_b = final_ratings.loc[final_ratings[&#x27;team&#x27;] == team_b, &#x27;rating&#x27;].values[0]
+        
+        # calculate probabilities and spread
+        hca_effect = best_params.get(&#x27;home_adv&#x27;, 65.0)
+        prob_a = 1.0 / (1.0 + 10.0 ** ((r_b + hca_effect - r_a) / 400.0))
+        prob_b = 1.0 - prob_a
+        
+        div = best_params.get(&#x27;spread_divisor&#x27;, 17.5)
+        elo_diff = (r_a - (r_b + hca_effect))
+        spread = elo_diff / div
+        
+        # determine favorite
+        favorite = team_a if spread &gt; 0 else team_b
+        
+        # store results
+        matchup_results.append({
+            &#x27;team_a&#x27;: team_a,
+            &#x27;team_b&#x27;: team_b,
+            &#x27;team_a_rating&#x27;: r_a,
+            &#x27;team_b_rating&#x27;: r_b,
+            &#x27;team_a_win_prob&#x27;: prob_a,
+            &#x27;team_b_win_prob&#x27;: prob_b,
+            &#x27;spread&#x27;: spread,
+            &#x27;favorite&#x27;: favorite
+        })
+        
+        # print individual matchup
+        print(f&quot;##############################&quot;)
+        print(f&quot;{team_a} @ {team_b}&quot;)
+        print(f&quot;##############################&quot;)
+        print(f&quot;Win Probability:  {team_a} {prob_a:.1%}&quot;)
+        print(f&quot;Projected Line:   {team_a} {spread:+.1f}&quot;)
+        print(f&quot;Projected Favorite: {favorite}&quot;)
+        print(f&quot;##############################\n&quot;)
+        
+    except IndexError:
+        print(f&quot;Error: Could not find ratings for {team_a} or {team_b}&quot;)
+
+# 5. save to csv        
+matchups_df = pd.DataFrame(matchup_results)
+matchups_df.to_csv(&quot;results.csv&quot;, index=False)
+print(f&quot;Saved {len(matchup_results)} matchup predictions to results.csv&quot;)
+</code></pre>
+                </div>
             </section>
         </main>
 

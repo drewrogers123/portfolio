@@ -38,38 +38,14 @@
         <main>
             <section class="project-detail">
                 <h2>CRAIG: Bayesian Parameter Tuning for Predictive Elo Models</h2>
-                <p>In December 2025, I began adapting my disc golf ratings algorithm for broader applications, ultimately focusing on NCAA Division 1 basketball.
-                    By mid January I developed CRAIG (a Collegiate Ratings Algorithm via Intelligent Guessing). The system utilizes Bayesian optimization to fine-tune a ten parameter ranking model which is trained on 2 years of historical data.
-                    To maintain accuracy, CRAIG is retrained every few days, ensuring team ratings and parameters reflect current performace trends. In the time since the initial deployment I have streamlined the workflow by automating the bet selection process and refining the underlying predictive logic.
+                <p>In December 2025, I began adapting my disc golf ratings algorithm for broader applications, ultimately focusing on NCAA D1 basketball.
+                    The system I eventually landed on uses Bayesian optimization to fine-tune a five to ten parameter model which is trained on 2 years of historical data.
+                    To maintain accuracy, the system is retrained at regular intervals, ensuring team ratings and parameters reflect current performace trends. In the time since initial deployment I automated the bet selection process and refined the underlying predictive logic.
                 </p>
-                <p><strong>Note on Transparency:</strong>While the source code, training data, and specific parameter weights remain proprietary to protect the model's integrity, I will share a simple excerpt of CRAIG's ouput and bet selections and will also note its recent win/loss percentage and weekly ROI below</p>
-                <img src="images/Jan22sample.png" alt="CRAIG Output Sample" style="max-width: 75%; height: auto; display: block; margin: auto;">
-                <p><strong>Above:</strong> A sample of CRAIG's moneyline selections for January 22, 2026. </p>
-                <p><strong>Update (January 26, 2026):</strong> I performed rigorous out-of-sample verification on a population of 1016 games sampled over the past month. To test the model under high volume conditions, I focused on the 15 days with the highest game density. During this period, CRAIG maintained a 70.2% hit rate, carving out a consistent edge over the -230 average implied hurdle (which requires a 69.7% win rate to break even). </p>
-                <p> While the raw signals alone were profitable, the significant gains came from the execution layer. The sample day shown above serves as a case study: by transitioning from flat betting to a modified Kelly criterion, I was able to scale into positions where the model showed the highest divergence from market prices. This improved capital efficiency fourfold, converting a baseline 9% return into a 37% net ROI for that session. To manage tail risk and mitigate idiosyncratic noise, the system enforces a cross-sectional diversification filter, only triggering when it identifies a bucket of at least 10 concurrent opportunities.</p>
-                <p><strong>Update (March 3, 2026):</strong> As March Madness approaches, I thought I'd post the top 68 teams that the algorithm has been trending towards. To give away too much information would be counterproductive, but the rankings and ratings come from a model that is very similar to the one I currently use, and this outdated model saw a ~40% return on investment during the period that it was active. These rankings are built using that same model, but with updated data (through games played on March 2, 2026).</p>
-                <img src="images/marchmadnessmarch2.png" alt="CRAIG Ratings for March 2, 2026" style="max-width: 75%; height: auto; display: block; margin: auto;">
-                <p><strong>Selection Sunday Update:</strong> Now that Selection Sunday has concluded, I wanted to share two early brackets I've created with CRAIG. A highlighted cell means that the game is a tossup and a bold cell means that the model picked an upset.</p>
-                <img src="images/MM26TPE.png" alt="CRAIG bracket using multivariate TPE" style="max-width: 75%; height: auto; display: block; margin: auto;">
-                <p><strong>Above:</strong> CRAIG's bracket using Multivariate TPE .</p>
-                <img src="images/MM26CMAES.png" alt="CRAIG bracket using CMA-ES" style="max-width: 75%; height: auto; display: block; margin: auto;">
-                <p><strong>Above:</strong> CRAIG's bracket using CMA-ES. </p>
-                <!-- <p><strong>Status:</strong> This project is currently under active development. I have adapted my Elo-based rating system to rank NCAA Division I men's basketball teams while using machine learning to optimize system parameters.
-                    </p>
-                <p>On January 14, I ran the model for 21 games and it predicted 16 correctly, or a correct rate of 76%. I took note of the DraftKings moneylines for each game the night before and with a equal bet on each game, the system would have seen 4.575% profit.
-                    On this given day, the system saw the best returns on bets with an implied win probability of 45% to 60%. On those bets the system would have seen a 12.3% profit. 
-                </p>
-                <p>The games used on 1/14 were mostly higher-seeded teams, which may have contributed to the model's success. On 1/15, there weren't many higher-seed teams playing, 
-                    so I expected that the model would perform worse, and indeed it did. I ran the model on 26 games and it predicted 17 correctly, or a correct rate of 73%. I took note of the DraftKings moneylines for the first 19 games and with an equal bet on each game, the system would have seen a 12% loss.
-                    The system needs an algorithm to select which games to bet on, which is a project for the next couple of days, since the current system where I select every game until I get tired of copying down moneylines is both inefficient and not scientifically sound.</p>
-                <p>If you are interested in the system's details, or have any suggestions for improvement, please feel free to contact me via email at <a href="mailto:rogersdrew0123@gmail.com">rogersdrew0123@gmail.com</a>.</p>
-                <p>On January 16th I added the Kelly criterion to the system. There weren't many games available to test the improvement, but the system performed well on this small sample. The system predicted 71% of games correctly, and splitting the bets 50/50 between moneyline and spread resulted in a 0.67% profit.
-                    There are many more games on January 17th which should help me get a feel for how all the adjustments are affecting the system's outcomes.
-                </p>
-                <p>On January 17th I ran the system on 71 games. It predicted the outcome of 44 correctly (for a correct percentage of 62%). With the improvements added earlier this week, the system only recommended bets on 22 of the matchups, and those bets would have resulted in a 0.94% profit.
-                    I also ran a version of the system with even higher demands to place a bet, and that system only recommended 5 bets for a profit of 37.30%. More games to come tomorrow.</p>
-                    <p>Page revamp and better name than "the system" coming soon, but on January 18th the system recommended betting on roughly 1/3rd of available moneylines, and roughly the same number of spreads for a gain of 19.15%. More predictions to come, and I'm excited to clean up this page and show more of the system's outputs in the coming days. Total gains for the system in its most updated form: 21%.</p> -->
-
+                <p><strong>Note on Transparency:</strong> While the source code, training data, and specific parameter weights remained proprietary during the 25-26 basketball season to protect the model's integrity, I now feel more comforable sharing that information. </p>
+                <img src="images/Jan22sample.png" alt="Output Sample" style="max-width: 75%; height: auto; display: block; margin: auto;">
+                <p><strong>Above:</strong> A sample of the system's moneyline selections for January 22, 2026. </p>
+                During the month of January, I performed rigorous out-of-sample verification on a population of 1016 games. To test the model under high volume conditions, I focused on the 15 days with the highest game density. During this period, the system maintained a 70.2% hit rate, carving out a consistent edge over the -230 average implied hurdle (which requires a 69.7% win rate to break even). </p>
             </section>
         </main>
 
